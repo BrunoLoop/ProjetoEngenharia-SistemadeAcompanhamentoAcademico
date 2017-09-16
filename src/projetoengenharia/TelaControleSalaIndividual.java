@@ -230,104 +230,56 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         operacaoBD ob = new operacaoBD();
-        Connection conn = ob.obterConexao();
-        String sql;
-        String salacod="";
-        
+
         try {
-
-            sql = "select salacod from telaindividual";
-            PreparedStatement ps;
-            ps = conn.prepareStatement(sql);
-            //ps.setString(1, cod);
-            ResultSet rs;
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                salacod = rs.getString("salacod");                
-            }
-            Statement st;
-            PreparedStatement sst;
-
-            /*
             Connection conexao = ob.obterConexao();
             PreparedStatement pre = null;
-            String Sql = "Select * from alunos where sala_id = ? order by codAluno";
-            pre = conexao.prepareStatement(Sql);
-            pre.setString(1, salacod);
-            pre.executeQuery();
-            
-            
-            
-            String[] colunasTabela = new String[]{
-                "Cod do Aluno", "Nome do Aluno", "Frequencia"
-            };
-            DefaultTableModel modelo;
-            modelo = new DefaultTableModel(null, colunasTabela) {
-                public boolean isCellEditable(int row, int col) {
-                    return false;
-                }
-                public boolean isCellSelected(int row, int col){
-                    return true;
-                }
-            };
-            tblAlunos.setModel(modelo);
-            while (rs.next()) {
+            ResultSet rs;
 
-                String dados[] = new String[4];
-                dados[0] = rs.getString("datanascimento");
-                dados[1] = rs.getString("nome");
-                dados[2] = rs.getString("frequencia");
-                modelo.addRow(dados);
+            String sql = "select salacod from telaindividual";
+            pre = conexao.prepareStatement(sql);
+            rs = pre.executeQuery();
+            if (rs.next()) {
+                int salacod = rs.getInt("salacod");
+                System.out.println(" A PORRA DO COD É: " + salacod);
+                pre.executeQuery();
+
+                pre = conexao.prepareStatement("Select * from alunos where sala_id = ? order by id_Alunos");
+                pre.setInt(1, salacod);
+                rs = pre.executeQuery();
+                String[] colunasTabela = new String[]{
+                    "Matricula do Aluno", "Nome do Aluno", "Frequencia"
+                };
+                DefaultTableModel modelo;
+                modelo = new DefaultTableModel(null, colunasTabela) {
+                    public boolean isCellEditable(int row, int col) {
+                        return false;
+                    }
+
+                    public boolean isCellSelected(int row, int col) {
+                        return true;
+                    }
+                };
+                tblAlunos.setModel(modelo);
+                while (rs.next()) {
+
+                    String dados[] = new String[4];
+                    dados[0] = rs.getString("id_Alunos");
+                    dados[1] = rs.getString("nome");
+                    dados[2] = rs.getString("frequencia");
+                    modelo.addRow(dados);
+                }
+
+                tblAlunos.setModel(modelo);
             }
+            else System.out.println("ERRO FEIO");    
 
-            tblAlunos.setModel(modelo);
-            */
-        } catch (SQLException erro) {
-            System.out.println("erro " + erro);
-        }//fim pegar cod para a sala
-        
-        try {
-            PreparedStatement stt = null;
-            ResultSet rs = null; //representação da memória em uma tabela
+        } catch (Exception erro) {
+            System.out.println("erro: " + erro);
 
-            Connection conexao = ob.obterConexao();
-            stt = conexao.prepareStatement("Select * from alunos where sala_id = ? order by codAluno");
-            stt.setString(1, salacod);
-            rs = stt.executeQuery();
-
-            
-            
-            
-            String[] colunasTabela = new String[]{
-                "Matricula do Aluno", "Nome do Aluno", "Frequencia"
-            };
-            DefaultTableModel modelo;
-            modelo = new DefaultTableModel(null, colunasTabela) {
-                public boolean isCellEditable(int row, int col) {
-                    return false;
-                }
-                public boolean isCellSelected(int row, int col){
-                    return true;
-                }
-            };
-            tblAlunos.setModel(modelo);
-            while (rs.next()) {
-
-                String dados[] = new String[4];
-                dados[0] = rs.getString("codAluno");
-                dados[1] = rs.getString("nome");
-                dados[2] = rs.getString("frequencia");
-                modelo.addRow(dados);
-            }
-
-            tblAlunos.setModel(modelo);
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        
-        
-        
+
+
     }//GEN-LAST:event_formWindowActivated
 
     private void btnSalasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalasMousePressed
@@ -374,16 +326,24 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaControleSalaIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaControleSalaIndividual.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaControleSalaIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaControleSalaIndividual.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaControleSalaIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaControleSalaIndividual.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaControleSalaIndividual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaControleSalaIndividual.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

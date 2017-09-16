@@ -6,8 +6,10 @@
 package projetoengenharia;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,7 +24,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
     public TelaControleSalas() {
         initComponents();
     }
-    
+    private int cod;
     
 
     /**
@@ -48,7 +50,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
         tblSalas = new javax.swing.JTable();
         txtPesquisa = new javax.swing.JTextField();
         btnCadastrarSala = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -129,6 +131,11 @@ public class TelaControleSalas extends javax.swing.JFrame {
         );
 
         btnOpcoes.setText("Op");
+        btnOpcoes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnOpcoesMousePressed(evt);
+            }
+        });
 
         jButton7.setText("FOTO");
 
@@ -190,7 +197,12 @@ public class TelaControleSalas extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Buscar");
+        btnBuscar.setText("Buscar");
+        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnBuscarMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -202,7 +214,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(btnBuscar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnCadastrarSala)))
@@ -214,7 +226,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(btnBuscar))
                 .addGap(23, 23, 23)
                 .addComponent(btnCadastrarSala)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -277,7 +289,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
             st = conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             //ResultSet.TYPE_SCROLL_SENSITIVE possibilita o acesso
             //ResultSet.CONCUR_UPDATABLE possibilita a edição
-            rs = st.executeQuery("Select * from salas order by codSala");
+            rs = st.executeQuery("Select * from salas order by id_Sala");
 
             //criando o padrao da tabela
             //DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"cod", "nome", "curso"});
@@ -298,7 +310,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
             while (rs.next()) {
 
                 String dados[] = new String[4];
-                dados[0] = rs.getString("codsala");
+                dados[0] = rs.getString("id_sala");
                 dados[1] = rs.getString("nomesala");
                 dados[2] = rs.getString("materia");
                 dados[3] = rs.getString("instituicao");
@@ -327,13 +339,68 @@ public class TelaControleSalas extends javax.swing.JFrame {
             return; //Não tem nada selecionado
         }
         
-        String cod = tblSalas.getValueAt(selecionada, 0).toString();
-        System.out.println("cod: " + cod);
+        String codd = tblSalas.getValueAt(selecionada, 0).toString();
+        cod = Integer.parseInt(codd);
+        this.setCod(cod);
         ob.GuardarCodSala(cod);
         
         new TelaControleSalaIndividual().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_tblSalasMousePressed
+
+    private void btnBuscarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMousePressed
+         operacaoBD ob = new operacaoBD();
+        try {
+
+            PreparedStatement st;
+            ResultSet rs = null;
+            String nome = txtPesquisa.getText();
+
+            Connection conexao = ob.obterConexao();
+            //st = conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            //ResultSet.TYPE_SCROLL_SENSITIVE possibilita o acesso
+            //ResultSet.CONCUR_UPDATABLE possibilita a edição
+
+            st = conexao.prepareStatement("Select * from salas where nomeSala like ?");
+            st.setString(1,'%' + nome + '%');
+            rs = st.executeQuery();
+
+            System.out.println("\n Salas buscados");
+
+             String[] colunasTabela = new String[]{
+                "Cod da Sala", "Nome da Sala", "Materia", "Instituicao"
+            };
+            DefaultTableModel modelo;
+            modelo = new DefaultTableModel(null, colunasTabela) {
+                public boolean isCellEditable(int row, int col) {
+                    return false;
+                }
+                public boolean isCellSelected(int row, int col){
+                    return true;
+                }
+            };
+            tblSalas.setModel(modelo);
+            //while para mostrar os dados dobanco de dados
+            while (rs.next()) {
+
+                String dados[] = new String[4];
+                dados[0] = rs.getString("codsala");
+                dados[1] = rs.getString("nomesala");
+                dados[2] = rs.getString("materia");
+                dados[3] = rs.getString("instituicao");
+                modelo.addRow(dados);
+            }
+
+            tblSalas.setModel(modelo);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnBuscarMousePressed
+
+    private void btnOpcoesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOpcoesMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOpcoesMousePressed
 
     /**
      * @param args the command line arguments
@@ -372,13 +439,13 @@ public class TelaControleSalas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlunos;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCadastrarSala;
     private javax.swing.JButton btnGraficos;
     private javax.swing.JButton btnOpcoes;
     private javax.swing.JButton btnRelatorios;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalas;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -387,4 +454,12 @@ public class TelaControleSalas extends javax.swing.JFrame {
     private javax.swing.JTable tblSalas;
     private javax.swing.JTextField txtPesquisa;
     // End of variables declaration//GEN-END:variables
+
+    public int getCod() {
+        return cod;
+    }
+
+    public void setCod(int cod) {
+        this.cod = cod;
+    }
 }

@@ -168,8 +168,7 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
         operacaoBD ob = new operacaoBD();
         Connection conn = ob.obterConexao();
         String sql;
-        String salacod="";
-        
+
         try {
 
             sql = "select salacod from telaindividual";
@@ -178,29 +177,27 @@ public class TelaCadastroAluno extends javax.swing.JFrame {
             ResultSet rs;
             rs = ps.executeQuery();
             if (rs.next()) {
-                salacod = rs.getString("salacod");
-                
-            }
-            
-        } catch (SQLException erro) {
-            System.out.println("erro " + erro);
-        }//fim pegar cod para a sala
-        
-        int sala_id = Integer.parseInt(salacod);
-        
-        String nome = null, dataNascimento = null, nomeResponsavel = null, endereco = null;
-        Integer telefone = null;
+                int salacod = rs.getInt("salacod");
+                System.out.println("salacod: " + salacod);
 
-        nome = txtNomeCompleto.getText();
-        dataNascimento = txtDataNascimento.getText();
-        nomeResponsavel = txtNomeResponsavel.getText();
-        endereco = txtEndereco.getText();
-        telefone = Integer.parseInt(txtTelefone.getText());
-        
-        Aluno a1 = new Aluno(nome, dataNascimento, nomeResponsavel, endereco, telefone);
-        ob.incluirAlunoTelaIndividual(a1, sala_id);
-        this.dispose();
-        
+                String nome = null, dataNascimento = null, nomeResponsavel = null, endereco = null, telefone = null;
+
+                nome = txtNomeCompleto.getText();
+                dataNascimento = txtDataNascimento.getText();
+                nomeResponsavel = txtNomeResponsavel.getText();
+                endereco = txtEndereco.getText();
+                telefone = txtTelefone.getText();
+
+                Aluno a1 = new Aluno(nome, dataNascimento, nomeResponsavel, endereco, telefone);
+                ob.incluirAlunoTelaIndividual(a1, salacod);
+                this.dispose();
+            } else {
+                System.out.println("SEM SALA");
+            }
+
+        } catch (Exception erro) {
+            System.out.println("erro1 " + erro);
+        }
 
     }//GEN-LAST:event_btnCadastrarMousePressed
 

@@ -41,8 +41,24 @@ public class operacaoBD {
             //verifica se conexão fechada ou inexistente
             //abre a conexão
             if (con == null || (con.isClosed())) {
-                con = DriverManager.getConnection("jdbc:mysql://localhost/projetoeng", "root", "112845");
+                con = DriverManager.getConnection("jdbc:mysql://localhost/projetoeng", "root", "");
                 System.out.println("Conexão obtida com sucesso");
+                //    JOptionPane.showMessageDialog(null, "Conexão obtida com sucesso");
+
+                /*String url = "jdbc:postgresql://localhost:8080/Imobiliaria";  
+                /*String url = "jdbc:postgresql://localhost:5432/Imobiliaria";  
+            String usuario = "postgres";  
+            String senha = "112845";  
+  
+            Class.forName("org.postgresql.Driver");  
+  
+            Connection con;  
+  
+            con = DriverManager.getConnection(url, usuario, senha);  
+  
+            System.out.println("Conexão realizada com sucesso.");  
+                 */
+                Statement stm = con.createStatement();
 
             }
         } catch (SQLException erro) {
@@ -116,7 +132,7 @@ public class operacaoBD {
         }
         return autenticado;
     }
-    
+
     public void incluirSala(Sala a) {
         Connection conexao = this.obterConexao();
         PreparedStatement pre = null;
@@ -140,53 +156,27 @@ public class operacaoBD {
         }
 
     }//fim incluir
-    
-    public void GuardarCodSala(String cod){
+
+    public void GuardarCodSala(int cod) {
         Connection conexao = this.obterConexao();
         PreparedStatement pre = null;
         try {
-            String sql = "update telaindividual set salacod = ?";
+            String sql = "update telaindividual set salacod = ? where id_telaindividual = 1";
             pre = conexao.prepareStatement(sql);
-
-            pre.setString(1, cod);
-            
+            pre.setInt(1, cod);
             pre.executeUpdate();
-            System.out.println("Inclusão completa com sucesso");
+            
+            System.out.println("Sala cod guardada com sucesso: " + cod);
         } catch (Exception erro) {
             System.out.println("erro " + erro);
         }
     }
-       
-
-    public String CodParaTelaIndividual() throws SQLException {
-        Connection conn = this.obterConexao();
-        String sql;
-        String cod="", salacod;
-        
-        try {
-
-            sql = "select salacod from telaindividual";
-            PreparedStatement ps;
-            ps = conn.prepareStatement(sql);
-            //ps.setString(1, cod);
-            ResultSet rs;
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                salacod = rs.getString("salacod");
-            }
-            
-        } catch (SQLException erro) {
-            System.out.println("erro " + erro);
-        }
-       
-        return cod;
-    }//fim alterar
 
     public void incluirAlunoTelaIndividual(Aluno a, int sala_id) {
         Connection conexao = this.obterConexao();
         PreparedStatement pre = null;
         try {
-            String sql = "Insert into alunos (nome, sala_id, dataNascimento, anomeResponsavel, endereco, telefone) values(?,?,?,?,?,?)";
+            String sql = "Insert into alunos (nome, sala_id, dataNascimento, nomeResponsavel, endereco, telefone) values(?,?,?,?,?,?)";
             pre = conexao.prepareStatement(sql);
 
             pre.setString(1, a.getNome());
@@ -194,20 +184,15 @@ public class operacaoBD {
             pre.setString(3, a.getDataNascimento());
             pre.setString(4, a.getNomeResponsavel());
             pre.setString(5, a.getEndereco());
-            pre.setInt(6, a.getTelefone());
+            pre.setString(6, a.getTelefone());
 
             pre.executeUpdate();
             System.out.println("Inclusão completa com sucesso");
         } catch (Exception erro) {
             System.out.println("erro " + erro);
         }
+    }//fim incluir aluno pela tela individual das salas
 
-    }//fim incluir
-    
-    
-    
-    
-    
     
     
     public void alterarUsuario(Usuario a) {
@@ -218,7 +203,7 @@ public class operacaoBD {
             String sql = "Update usuarios set nome = ? where codusuarios = ?";
             pre = conexao.prepareStatement(sql);
             pre.setString(1, a.getNome());
-            pre.setString(2, a.getCodusuario());
+            pre.setString(2, a.getCodUsuario());
             pre.executeUpdate();
 
             System.out.println("Alteração feita com sucesso");

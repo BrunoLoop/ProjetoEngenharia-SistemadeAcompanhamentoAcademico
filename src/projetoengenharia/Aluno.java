@@ -13,9 +13,9 @@ class Aluno {
     private String dataNascimento;
     private String nomeResponsavel;
     private String endereco; 
-    private Integer telefone;
+    private String telefone;
     
-    public Aluno(String nome, String dataNascimento, String nomeResponsavel, String endereco, Integer telefone) {
+    public Aluno(String nome, String dataNascimento, String nomeResponsavel, String endereco, String telefone) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.nomeResponsavel = nomeResponsavel;
@@ -84,11 +84,11 @@ class Aluno {
         this.endereco = endereco;
     }
 
-    public Integer getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(Integer telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
