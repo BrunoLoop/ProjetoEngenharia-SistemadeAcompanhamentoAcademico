@@ -5,7 +5,7 @@ package projetoengenharia;
  * @author Bruno Lopes
  * @since Classe criada em 10/08/2017
  */
-class Aluno {
+public class Aluno {
     private int codAluno;
     private int sala_id;
     private int frequencia;

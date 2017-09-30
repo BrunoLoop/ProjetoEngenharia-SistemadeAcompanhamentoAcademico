@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetoengenharia;
+package View;
 
+import DAO.operacaoBD;
+import projetoengenharia.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,6 +53,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
         txtPesquisa = new javax.swing.JTextField();
         btnCadastrarSala = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -204,6 +207,8 @@ public class TelaControleSalas extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Busca pelo Nome das Salas:");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -219,11 +224,17 @@ public class TelaControleSalas extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnCadastrarSala)))
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
@@ -283,16 +294,10 @@ public class TelaControleSalas extends javax.swing.JFrame {
         try {
 
             Statement st;
-            ResultSet rs = null; //representação da memória em uma tabela
-
+            ResultSet rs = null;
             Connection conexao = ob.obterConexao();
-            st = conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            //ResultSet.TYPE_SCROLL_SENSITIVE possibilita o acesso
-            //ResultSet.CONCUR_UPDATABLE possibilita a edição
-            rs = st.executeQuery("Select * from salas order by id_Sala");
-
-            //criando o padrao da tabela
-            //DefaultTableModel modelo = new DefaultTableModel(null, new String[]{"cod", "nome", "curso"});
+            st = conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);            
+            rs = st.executeQuery("Select * from salas where visible = 0 order by id_Sala");
             String[] colunasTabela = new String[]{
                 "Cod da Sala", "Nome da Sala", "Materia", "Instituicao"
             };
@@ -320,7 +325,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
             tblSalas.setModel(modelo);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("erro no mostrar as salas cadastradas" + e);
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -361,7 +366,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
             //ResultSet.TYPE_SCROLL_SENSITIVE possibilita o acesso
             //ResultSet.CONCUR_UPDATABLE possibilita a edição
 
-            st = conexao.prepareStatement("Select * from salas where nomeSala like ?");
+            st = conexao.prepareStatement("Select * from salas where nomeSala like ? and visible = 0");
             st.setString(1,'%' + nome + '%');
             rs = st.executeQuery();
 
@@ -384,7 +389,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
             while (rs.next()) {
 
                 String dados[] = new String[4];
-                dados[0] = rs.getString("codsala");
+                dados[0] = rs.getString("id_Sala");
                 dados[1] = rs.getString("nomesala");
                 dados[2] = rs.getString("materia");
                 dados[3] = rs.getString("instituicao");
@@ -428,6 +433,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TelaControleSalas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -447,6 +453,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalas;
     private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

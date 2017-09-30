@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetoengenharia;
+package View;
 
+import projetoengenharia.*;
 import com.mysql.jdbc.interceptors.SessionAssociationInterceptor;
 
 /**
  *
  * @author Bruno
  */
-public class TelaControlePrincipal extends javax.swing.JFrame {
+public class TelaRelatorios extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaControlePrincipal
      */
-    public TelaControlePrincipal() {
+    public TelaRelatorios() {
         initComponents();
     }
 
@@ -181,7 +182,7 @@ public class TelaControlePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalasMousePressed
 
     private void btnAlunosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlunosMousePressed
-        new TelaControleAlunos().setVisible(true);
+        new TelaRelatorios().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAlunosMousePressed
 
@@ -218,20 +219,27 @@ public class TelaControlePrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaControlePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaRelatorios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaControlePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaRelatorios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaControlePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaRelatorios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaControlePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaRelatorios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaControlePrincipal().setVisible(true);
+                new TelaRelatorios().setVisible(true);
             }
         });
     }

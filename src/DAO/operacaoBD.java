@@ -1,4 +1,4 @@
-package projetoengenharia;
+package DAO;
 
 /**
  * Classe para gerar objetos do tipo operacaoBD
@@ -13,56 +13,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
+import projetoengenharia.Aluno;
+import projetoengenharia.Sala;
+import projetoengenharia.Usuario;
 
 public class operacaoBD {
 
-    //objeto responsavel por armazenar a conexao bd
     Connection con = null;
 
-    //ao construir a classe, sera carregada o driver de conexão 
     public operacaoBD() {
         this.carregarDriver();
     }
 
     private void carregarDriver() {
         try {
-            //tenta carregar o driver
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("Driver Carregado");
         } catch (ClassNotFoundException erro) {
-            //se nao carregar o driver
             System.out.println("O driver MySQL não pode ser carregado error:" + erro);
-
         }
     }
 
     public Connection obterConexao() {
         try {
-            //verifica se conexão fechada ou inexistente
-            //abre a conexão
             if (con == null || (con.isClosed())) {
-                con = DriverManager.getConnection("jdbc:mysql://localhost/projetoeng", "root", "");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3307/projetoeng", "root", "");
                 System.out.println("Conexão obtida com sucesso");
-                //    JOptionPane.showMessageDialog(null, "Conexão obtida com sucesso");
-
-                /*String url = "jdbc:postgresql://localhost:8080/Imobiliaria";  
-                /*String url = "jdbc:postgresql://localhost:5432/Imobiliaria";  
-            String usuario = "postgres";  
-            String senha = "112845";  
-  
-            Class.forName("org.postgresql.Driver");  
-  
-            Connection con;  
-  
-            con = DriverManager.getConnection(url, usuario, senha);  
-  
-            System.out.println("Conexão realizada com sucesso.");  
-                 */
                 Statement stm = con.createStatement();
-
             }
-        } catch (SQLException erro) {
-            System.out.println("SQLException: " + erro);
         } catch (Exception erro) {
             System.out.println("Exception: " + erro);
         }
@@ -99,35 +77,35 @@ public class operacaoBD {
         } catch (Exception erro) {
             System.out.println("erro " + erro);
         }
-
-    }//fim incluir
+    }//fim incluir Usuario
 
     public boolean validacaoLogin(String login, String senha) {
         Connection conn = this.obterConexao();
         boolean autenticado = false;
         String sql;
-        String loginVer;
-        String senhaVer;
+        String loginVer = null;
+        String senhaVer = null;
         boolean flag = false;
 
         try {
-
-            //sql = "SELECT login, senha FROM usuarios WHERE login=? and senha=?";
             sql = "SELECT login, senha FROM usuarios";
             PreparedStatement ps;
             ps = conn.prepareStatement(sql);
-            //ps.setString(1, login);
-            //ps.setString(2, senha);
             ResultSet rs;
             rs = ps.executeQuery();
-            if (rs.next()) {
+            
+            while (rs.next()) {
                 loginVer = rs.getString("login");
                 senhaVer = rs.getString("senha");
-                autenticado = true;
-            } else {
-                return autenticado;
+                if (login.equals(loginVer)) {
+                    if (senha.equals(senhaVer)) {
+                        autenticado = true;
+                        break;
+                    }
+                }
             }
-        } catch (SQLException erro) {
+        } 
+        catch (SQLException erro) {
             System.out.println("erro " + erro);
         }
         return autenticado;
@@ -165,7 +143,7 @@ public class operacaoBD {
             pre = conexao.prepareStatement(sql);
             pre.setInt(1, cod);
             pre.executeUpdate();
-            
+
             System.out.println("Sala cod guardada com sucesso: " + cod);
         } catch (Exception erro) {
             System.out.println("erro " + erro);
@@ -193,6 +171,27 @@ public class operacaoBD {
         }
     }//fim incluir aluno pela tela individual das salas
 
+    public void excluirSala(int salacod) {
+        Connection conexao = this.obterConexao();
+        PreparedStatement pre = null;
+
+        try {
+            String sql = "Update salas set visible = 1 where id_Sala = ?";
+            pre = conexao.prepareStatement(sql);
+            pre.setInt(1, salacod);
+            pre.executeUpdate();
+
+            System.out.println("Sala Não Visivel realizada com sucesso");
+        } catch (SQLException erro) {
+            System.out.println("erro no apgar sala na operacao bd " + erro);
+        }
+    }// fim excluir Salas
+    
+    
+    
+    
+    
+    
     
     
     public void alterarUsuario(Usuario a) {
@@ -231,21 +230,7 @@ public class operacaoBD {
         }
     }//fim alterar
 
-    public void excluirLivro(Livro a) {
-        Connection conexao = this.obterConexao();
-        PreparedStatement pre = null;
-
-        try {
-            String sql = "Delete from livros where codlivro = ?";
-            pre = conexao.prepareStatement(sql);
-            pre.setString(1, a.getCodlivro());
-            pre.executeUpdate();
-
-            System.out.println("Exclusão realizada com sucesso");
-        } catch (SQLException erro) {
-            System.out.println("erro " + erro);
-        }
-    }// fim excluir    
+        
 
     public void excluirUsuario(Usuario a) {
         Connection conexao = this.obterConexao();

@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetoengenharia;
+package View;
+
+import DAO.operacaoBD;
+import javax.swing.JOptionPane;
+import projetoengenharia.*;
 
 /**
  *
@@ -142,9 +146,9 @@ public class TelaLogin extends javax.swing.JFrame {
 
     private void btnEntrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEntrarMousePressed
         operacaoBD ob = new operacaoBD();
-        String login;
-        String senha;
-        boolean flag;
+        String login = null;
+        String senha = null;
+        boolean flag = false;
         
         login = txtLogin.getText();
         senha = txtSenha.getText();
@@ -152,8 +156,12 @@ public class TelaLogin extends javax.swing.JFrame {
         flag = ob.validacaoLogin(login, senha);
         
         if(flag == true){
+            System.out.println("Log-in no Sistema");
             new TelaControlePrincipal().setVisible(true);
             this.dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Login ou Senha Invalidos");
         }
         
     }//GEN-LAST:event_btnEntrarMousePressed
@@ -183,6 +191,7 @@ public class TelaLogin extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
