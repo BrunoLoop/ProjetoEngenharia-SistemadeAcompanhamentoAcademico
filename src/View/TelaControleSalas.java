@@ -27,7 +27,6 @@ public class TelaControleSalas extends javax.swing.JFrame {
         initComponents();
     }
     private int cod;
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,6 +53,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
         btnCadastrarSala = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        lblusuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -209,6 +209,8 @@ public class TelaControleSalas extends javax.swing.JFrame {
 
         jLabel1.setText("Busca pelo Nome das Salas:");
 
+        lblusuario.setText("jLabel2");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -222,12 +224,14 @@ public class TelaControleSalas extends javax.swing.JFrame {
                         .addComponent(btnBuscar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnCadastrarSala)))
+                        .addComponent(btnCadastrarSala))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(lblusuario))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,7 +242,9 @@ public class TelaControleSalas extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
-                .addGap(23, 23, 23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblusuario)
+                .addGap(3, 3, 3)
                 .addComponent(btnCadastrarSala)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -290,41 +296,56 @@ public class TelaControleSalas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairMousePressed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
         operacaoBD ob = new operacaoBD();
+
         try {
-
-            Statement st;
-            ResultSet rs = null;
             Connection conexao = ob.obterConexao();
-            st = conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);            
-            rs = st.executeQuery("Select * from salas where visible = 0 order by id_Sala");
-            String[] colunasTabela = new String[]{
-                "Cod da Sala", "Nome da Sala", "Materia", "Instituicao"
-            };
-            DefaultTableModel modelo;
-            modelo = new DefaultTableModel(null, colunasTabela) {
-                public boolean isCellEditable(int row, int col) {
-                    return false;
-                }
-                public boolean isCellSelected(int row, int col){
-                    return true;
-                }
-            };
-            tblSalas.setModel(modelo);
-            //while para mostrar os dados dobanco de dados
-            while (rs.next()) {
+            PreparedStatement pre = null;
+            ResultSet rs;
 
-                String dados[] = new String[4];
-                dados[0] = rs.getString("id_sala");
-                dados[1] = rs.getString("nomesala");
-                dados[2] = rs.getString("materia");
-                dados[3] = rs.getString("instituicao");
-                modelo.addRow(dados);
+            String sql = "select usuariocod from telaindividual";
+            pre = conexao.prepareStatement(sql);
+            rs = pre.executeQuery();
+            if (rs.next()) {
+                int id_usuario = rs.getInt("usuariocod");
+                pre.executeQuery();
+                pre = conexao.prepareStatement("Select * from salas where id_usuario = ? and visible = 1 order by id_Sala");
+                pre.setInt(1, id_usuario);
+                rs = pre.executeQuery();
+                
+                String i = Integer.toString(id_usuario);
+                lblusuario.setText(i);
+                
+                String[] colunasTabela = new String[]{
+                    "Cod da Sala", "Nome da Sala", "Materia", "Instituicao"
+                };
+                DefaultTableModel modelo;
+                modelo = new DefaultTableModel(null, colunasTabela) {
+                    public boolean isCellEditable(int row, int col) {
+                        return false;
+                    }
+
+                    public boolean isCellSelected(int row, int col) {
+                        return true;
+                    }
+                };
+                tblSalas.setModel(modelo);
+                //while para mostrar os dados dobanco de dados
+                while (rs.next()) {
+
+                    String dados[] = new String[4];
+                    dados[0] = rs.getString("id_sala");
+                    dados[1] = rs.getString("nomesala");
+                    dados[2] = rs.getString("materia");
+                    dados[3] = rs.getString("instituicao");
+                    modelo.addRow(dados);
+                }
+
+                tblSalas.setModel(modelo);
             }
-
-            tblSalas.setModel(modelo);
-
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.out.println("erro no mostrar as salas cadastradas" + e);
         }
     }//GEN-LAST:event_formWindowOpened
@@ -343,18 +364,18 @@ public class TelaControleSalas extends javax.swing.JFrame {
         if (selecionada == -1) {
             return; //Não tem nada selecionado
         }
-        
-        String codd = tblSalas.getValueAt(selecionada, 0).toString();
+
+        String codd = tblSalas.getValueAt(selecionada, 1).toString();
         cod = Integer.parseInt(codd);
         this.setCod(cod);
         ob.GuardarCodSala(cod);
-        
+
         new TelaControleSalaIndividual().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_tblSalasMousePressed
 
     private void btnBuscarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMousePressed
-         operacaoBD ob = new operacaoBD();
+        operacaoBD ob = new operacaoBD();
         try {
 
             PreparedStatement st;
@@ -367,12 +388,12 @@ public class TelaControleSalas extends javax.swing.JFrame {
             //ResultSet.CONCUR_UPDATABLE possibilita a edição
 
             st = conexao.prepareStatement("Select * from salas where nomeSala like ? and visible = 0");
-            st.setString(1,'%' + nome + '%');
+            st.setString(1, '%' + nome + '%');
             rs = st.executeQuery();
 
             System.out.println("\n Salas buscados");
 
-             String[] colunasTabela = new String[]{
+            String[] colunasTabela = new String[]{
                 "Cod da Sala", "Nome da Sala", "Materia", "Instituicao"
             };
             DefaultTableModel modelo;
@@ -380,7 +401,8 @@ public class TelaControleSalas extends javax.swing.JFrame {
                 public boolean isCellEditable(int row, int col) {
                     return false;
                 }
-                public boolean isCellSelected(int row, int col){
+
+                public boolean isCellSelected(int row, int col) {
                     return true;
                 }
             };
@@ -458,6 +480,7 @@ public class TelaControleSalas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblusuario;
     private javax.swing.JTable tblSalas;
     private javax.swing.JTextField txtPesquisa;
     // End of variables declaration//GEN-END:variables

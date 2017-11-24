@@ -37,7 +37,7 @@ public class operacaoBD {
     public Connection obterConexao() {
         try {
             if (con == null || (con.isClosed())) {
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3307/projetoeng", "root", "");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/projetoeng", "root", "");
                 System.out.println("Conexão obtida com sucesso");
                 Statement stm = con.createStatement();
             }
@@ -80,42 +80,54 @@ public class operacaoBD {
     }//fim incluir Usuario
 
     public boolean validacaoLogin(String login, String senha) {
-        Connection conn = this.obterConexao();
+        Connection conexao = this.obterConexao();
+        PreparedStatement pre;
         boolean autenticado = false;
         String sql;
         String loginVer = null;
         String senhaVer = null;
+        int id_usuario;
         boolean flag = false;
 
         try {
-            sql = "SELECT login, senha FROM usuarios";
+            sql = "SELECT login, senha, id_usuario FROM usuarios";
             PreparedStatement ps;
-            ps = conn.prepareStatement(sql);
+            ps = conexao.prepareStatement(sql);
             ResultSet rs;
             rs = ps.executeQuery();
-            
+
             while (rs.next()) {
+                id_usuario = rs.getInt("id_usuario");
+
                 loginVer = rs.getString("login");
                 senhaVer = rs.getString("senha");
                 if (login.equals(loginVer)) {
                     if (senha.equals(senhaVer)) {
+
+                        String sql1 = "update telaindividual set usuariocod = ? where id_telaindividual = 1";
+                        pre = conexao.prepareStatement(sql1);
+                        pre.setInt(1, id_usuario);
+                        pre.executeUpdate();
+                        System.out.println("usuario cod guardado em telaindividual com sucesso: " + id_usuario);
+
                         autenticado = true;
+
+                        System.out.println("validacao ok");
                         break;
                     }
                 }
             }
-        } 
-        catch (SQLException erro) {
+        } catch (SQLException erro) {
             System.out.println("erro " + erro);
         }
         return autenticado;
     }
 
-    public void incluirSala(Sala a) {
+    public void incluirSala(Sala a, int id_usuario) {
         Connection conexao = this.obterConexao();
         PreparedStatement pre = null;
         try {
-            String sql = "Insert into salas (nomeSala, instituicao, materia, anoEnsino, qtdHorasAula, frequenciaMin, qtdAvaliacoes, observacoes) values(?,?,?,?,?,?,?,?)";
+            String sql = "Insert into salas (nomeSala, instituicao, materia, anoEnsino, qtdHorasAula, frequenciaMin, qtdAvaliacoes, observacoes, visible, id_usuario) values(?,?,?,?,?,?,?,?,?,?)";
             pre = conexao.prepareStatement(sql);
 
             pre.setString(1, a.getNomeSala());
@@ -126,6 +138,8 @@ public class operacaoBD {
             pre.setInt(6, a.getFrequenciaMin());
             pre.setInt(7, a.getQtdAvaliacoes());
             pre.setString(8, a.getObservacoes());
+            pre.setInt(9, a.getVisible());
+            pre.setInt(10, id_usuario);
 
             pre.executeUpdate();
             System.out.println("Inclusão completa com sucesso");
@@ -150,11 +164,26 @@ public class operacaoBD {
         }
     }
 
+    public void GuardarCodAluno(int cod) {
+        Connection conexao = this.obterConexao();
+        PreparedStatement pre = null;
+        try {
+            String sql = "update telaindividual set alunocod = ? where id_telaindividual = 1";
+            pre = conexao.prepareStatement(sql);
+            pre.setInt(1, cod);
+            pre.executeUpdate();
+
+            System.out.println("Matricula do Aluno guardada com sucesso: " + cod);
+        } catch (Exception erro) {
+            System.out.println("erro " + erro);
+        }
+    }
+
     public void incluirAlunoTelaIndividual(Aluno a, int sala_id) {
         Connection conexao = this.obterConexao();
         PreparedStatement pre = null;
         try {
-            String sql = "Insert into alunos (nome, sala_id, dataNascimento, nomeResponsavel, endereco, telefone) values(?,?,?,?,?,?)";
+            String sql = "Insert into alunos (nome, sala_id, dataNascimento, nomeResponsavel, endereco, telefone, visible) values(?,?,?,?,?,?,?)";
             pre = conexao.prepareStatement(sql);
 
             pre.setString(1, a.getNome());
@@ -163,6 +192,7 @@ public class operacaoBD {
             pre.setString(4, a.getNomeResponsavel());
             pre.setString(5, a.getEndereco());
             pre.setString(6, a.getTelefone());
+            pre.setInt(7, a.getVisible());
 
             pre.executeUpdate();
             System.out.println("Inclusão completa com sucesso");
@@ -186,14 +216,51 @@ public class operacaoBD {
             System.out.println("erro no apgar sala na operacao bd " + erro);
         }
     }// fim excluir Salas
-    
-    
-    
-    
-    
-    
-    
-    
+
+    public void excluirAluno(int id_aluno) {
+        Connection conexao = this.obterConexao();
+        PreparedStatement pre = null;
+
+        try {
+            String sql = "Update alunos set visible = 1 where id_Alunos = ?";
+            pre = conexao.prepareStatement(sql);
+            pre.setInt(1, id_aluno);
+            pre.executeUpdate();
+
+            System.out.println("Aluno 'Não Visivel' realizada com sucesso");
+        } catch (SQLException erro) {
+            System.out.println("erro no apgar aluno na operacao bd " + erro);
+        }
+    }// fim excluir Salas
+
+    public void RealizarChamada(int freq, int id_aluno, int qtdTotalAulas) {
+        Connection conexao = this.obterConexao();
+        PreparedStatement pre;
+        ResultSet rs;
+        try {
+            String sql1 = "SELECT frequencia FROM alunos where id_Alunos = ?";
+            pre = conexao.prepareStatement(sql1);
+            pre.setInt(1, id_aluno);
+            rs = pre.executeQuery();
+            while (rs.next()) {
+                int frequencia = rs.getInt("frequencia");
+                frequencia = frequencia + freq;
+                while (rs.next()) {
+                    String sql = "Update alunos set frequencia = ? where id_Alunos = ?";
+                    pre = conexao.prepareStatement(sql);
+                    pre.setInt(1, frequencia);
+                    pre.setInt(2, id_aluno);
+                    rs = pre.executeQuery();
+                }
+
+                break;
+            }
+
+        } catch (Exception erro) {
+            System.out.println("erro" + erro);
+        }
+    }
+
     public void alterarUsuario(Usuario a) {
         Connection conexao = this.obterConexao();
         PreparedStatement pre = null;
@@ -229,8 +296,6 @@ public class operacaoBD {
             System.out.println("erro " + erro);
         }
     }//fim alterar
-
-        
 
     public void excluirUsuario(Usuario a) {
         Connection conexao = this.obterConexao();

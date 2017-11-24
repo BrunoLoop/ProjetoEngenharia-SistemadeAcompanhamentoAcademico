@@ -11,28 +11,28 @@ public class Sala {
     private String instituição; 
     private String materia;
     private String anoEnsino;
-    private Integer qtdHorasAula;
+    private Integer qtdTotalAulas;
     private Integer frequenciaMin;
     private Integer qtdAvaliacoes;
     private String observacoes;
+    private int visible = 0;
+    private String codUsuario;
 
-    public Sala( String nomeSala, String instituição, String materia, String anoEnsino, Integer qtdHorasAula, Integer frequenciaMin,Integer qtdAvaliacoes, String observacoes) {
+    public Sala( String nomeSala, String instituição, String materia, String anoEnsino, Integer qtdTotalAulas, Integer frequenciaMin,Integer qtdAvaliacoes, String observacoes, int visible) {
         this.nomeSala = nomeSala;
         this.instituição = instituição;
         this.materia = materia;
         this.anoEnsino = anoEnsino;
-        this.qtdHorasAula = qtdHorasAula;
+        this.qtdTotalAulas = qtdTotalAulas;
         this.frequenciaMin = frequenciaMin;
         this.qtdAvaliacoes = qtdAvaliacoes;
         this.observacoes = observacoes;
+        this.visible = visible;
     }
     
     public Sala(String codSala){
         this.codSala = codSala;
     }
-
-    
-    
     
     public String getCodSala() {
         return codSala;
@@ -75,11 +75,11 @@ public class Sala {
     }
 
     public Integer getQtdHorasAula() {
-        return qtdHorasAula;
+        return qtdTotalAulas;
     }
 
-    public void setQtdHorasAula(Integer qtdHorasAula) {
-        this.qtdHorasAula = qtdHorasAula;
+    public void setQtdTotalAulas(Integer qtdTotalAulas) {
+        this.qtdTotalAulas = qtdTotalAulas;
     }
 
     public Integer getFrequenciaMin() {
@@ -104,6 +104,22 @@ public class Sala {
 
     public void setQtdAvaliacoes(Integer qtdAvaliacoes) {
         this.qtdAvaliacoes = qtdAvaliacoes;
+    }
+
+    public int getVisible() {
+        return visible;
+    }
+
+    public void setVisible(int visible) {
+        this.visible = visible;
+    }
+
+    public String getCodUsuario() {
+        return codUsuario;
+    }
+
+    public void setCodUsuario(String codUsuario) {
+        this.codUsuario = codUsuario;
     }
 
 }//fim da classe

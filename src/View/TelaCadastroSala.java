@@ -6,6 +6,9 @@
 package View;
 
 import DAO.operacaoBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import projetoengenharia.*;
 
 /**
@@ -41,7 +44,7 @@ public class TelaCadastroSala extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         txtIdentificacaoSala = new javax.swing.JTextField();
         txtInstituicao = new javax.swing.JTextField();
-        txtQtdHorasAulas = new javax.swing.JTextField();
+        qtdTotalAulas = new javax.swing.JTextField();
         txtMateria = new javax.swing.JTextField();
         txtFrequencia = new javax.swing.JTextField();
         txtObservacoes = new javax.swing.JTextField();
@@ -66,7 +69,7 @@ public class TelaCadastroSala extends javax.swing.JFrame {
 
         cmbAnoEnsino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ensino Básico", "Ensino Fundamental", "Ensino Médio", "Ensino Superior", "Ensino Técnico" }));
 
-        jLabel5.setText("Quantidade de horas aulas: ");
+        jLabel5.setText("Quantidade Total de Aulas: ");
 
         jLabel6.setText("Frequencia minima:");
 
@@ -95,63 +98,59 @@ public class TelaCadastroSala extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtInstituicao, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtIdentificacaoSala, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtQtdHorasAulas, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(cmbAnoEnsino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtFrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtInstituicao, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtQtdAvaliacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel7)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtObservacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(btnCadastrar)
-                                    .addGap(37, 37, 37)
-                                    .addComponent(btnCancelar)
-                                    .addGap(83, 83, 83)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtIdentificacaoSala, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(147, 147, 147)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(cmbAnoEnsino, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(qtdTotalAulas, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtFrequencia, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel8)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtQtdAvaliacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtObservacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(btnCadastrar)
+                            .addGap(37, 37, 37)
+                            .addComponent(btnCancelar))))
+                .addContainerGap(31, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel9)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(98, 98, 98))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtIdentificacaoSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -170,7 +169,7 @@ public class TelaCadastroSala extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtQtdHorasAulas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(qtdTotalAulas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -194,7 +193,9 @@ public class TelaCadastroSala extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,39 +209,58 @@ public class TelaCadastroSala extends javax.swing.JFrame {
     private void btnCadastrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarMousePressed
         operacaoBD ob = new operacaoBD();
         String identificacao, instituicao, materia, anoEnsino = null, observacoes;
-        Integer opAnoEnsino, qtdHrAula, frequencia, qtdAvaliacoes;
+        Integer opAnoEnsino, qtdTotalAulas, frequencia, qtdAvaliacoes;
+        Connection conexao = ob.obterConexao();
+        PreparedStatement pre = null;
 
         identificacao = txtIdentificacaoSala.getText();
         instituicao = txtInstituicao.getText();
         materia = txtMateria.getText();
 
         opAnoEnsino = cmbAnoEnsino.getSelectedIndex();
-        switch(opAnoEnsino){
+        switch (opAnoEnsino) {
             case 0:
-            anoEnsino = "Ensino Básico";
-            break;
+                anoEnsino = "Ensino Básico";
+                break;
             case 1:
-            anoEnsino = "Ensino Fundamental";
-            break;
+                anoEnsino = "Ensino Fundamental";
+                break;
             case 2:
-            anoEnsino = "Ensino Médio";
-            break;
+                anoEnsino = "Ensino Médio";
+                break;
             case 3:
-            anoEnsino = "Ensino Superior";
-            break;
+                anoEnsino = "Ensino Superior";
+                break;
             case 4:
-            anoEnsino = "Ensino Técnico";
-            break;
+                anoEnsino = "Ensino Técnico";
+                break;
         }
-        qtdHrAula = Integer.parseInt(txtQtdHorasAulas.getText());
+        qtdTotalAulas = Integer.parseInt(this.qtdTotalAulas.getText());
         frequencia = Integer.parseInt(txtFrequencia.getText());
         qtdAvaliacoes = Integer.parseInt(txtQtdAvaliacoes.getText());
-        
         observacoes = txtObservacoes.getText();
+        int visible = 0;
+        Sala s1 = new Sala(identificacao, instituicao, materia, anoEnsino, qtdTotalAulas, frequencia, qtdAvaliacoes, observacoes, visible);
 
-        Sala s1 = new Sala(identificacao, instituicao, materia, anoEnsino, qtdHrAula, frequencia, qtdAvaliacoes, observacoes);
-        ob.incluirSala(s1);
-        this.dispose();
+        try {
+
+            String sql = "select usuariocod from telaindividual";
+            pre = conexao.prepareStatement(sql);
+            ResultSet rs;
+            rs = pre.executeQuery();
+            if (rs.next()) {
+                int usuariocod = rs.getInt("usuariocod");
+                System.out.println("usuariocod: " + usuariocod);
+                pre.executeQuery();
+                System.out.println("usuario cod guardado com sucesso: " + usuariocod);
+                ob.incluirSala(s1, usuariocod);
+                this.dispose();
+
+            }
+        } catch (Exception erro) {
+            System.out.println("erro no pegar cod do usuario para adicionar na inclusao da sala" + erro);
+        }
+
 
     }//GEN-LAST:event_btnCadastrarMousePressed
 
@@ -298,12 +318,12 @@ public class TelaCadastroSala extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField qtdTotalAulas;
     private javax.swing.JTextField txtFrequencia;
     private javax.swing.JTextField txtIdentificacaoSala;
     private javax.swing.JTextField txtInstituicao;
     private javax.swing.JTextField txtMateria;
     private javax.swing.JTextField txtObservacoes;
     private javax.swing.JTextField txtQtdAvaliacoes;
-    private javax.swing.JTextField txtQtdHorasAulas;
     // End of variables declaration//GEN-END:variables
 }

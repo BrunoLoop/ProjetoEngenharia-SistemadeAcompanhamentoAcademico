@@ -5,8 +5,13 @@
  */
 package View;
 
+import DAO.operacaoBD;
 import projetoengenharia.*;
 import com.mysql.jdbc.interceptors.SessionAssociationInterceptor;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +25,7 @@ public class TelaControleAlunos extends javax.swing.JFrame {
     public TelaControleAlunos() {
         initComponents();
     }
+    private int cod;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,10 +45,21 @@ public class TelaControleAlunos extends javax.swing.JFrame {
         btnSair = new javax.swing.JButton();
         btnOpcoes = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        pnlSalas = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblAlunos = new javax.swing.JTable();
+        txtPesquisa = new javax.swing.JTextField();
+        btnCadastrarAluno = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setOpaque(false);
@@ -109,7 +126,7 @@ public class TelaControleAlunos extends javax.swing.JFrame {
                 .addComponent(btnRelatorios)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGraficos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSair)
                 .addContainerGap())
         );
@@ -144,17 +161,79 @@ public class TelaControleAlunos extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pnlSalas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        javax.swing.GroupLayout pnlSalasLayout = new javax.swing.GroupLayout(pnlSalas);
-        pnlSalas.setLayout(pnlSalasLayout);
-        pnlSalasLayout.setHorizontalGroup(
-            pnlSalasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 376, Short.MAX_VALUE)
+        tblAlunos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblAlunos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblAlunosMousePressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblAlunos);
+
+        btnCadastrarAluno.setText("Cadastrar Aluno");
+        btnCadastrarAluno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCadastrarAlunoMousePressed(evt);
+            }
+        });
+        btnCadastrarAluno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarAlunoActionPerformed(evt);
+            }
+        });
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnBuscarMousePressed(evt);
+            }
+        });
+
+        jLabel1.setText("Busca pela Matricula do Alunos:");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBuscar)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnCadastrarAluno)))
+                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
         );
-        pnlSalasLayout.setVerticalGroup(
-            pnlSalasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 342, Short.MAX_VALUE)
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addComponent(btnCadastrarAluno)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -164,12 +243,12 @@ public class TelaControleAlunos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlSalas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlSalas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -197,10 +276,124 @@ public class TelaControleAlunos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGraficosMousePressed
 
     private void btnSairMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSairMousePressed
-        
+
         new TelaLogin().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSairMousePressed
+
+    private void tblAlunosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAlunosMousePressed
+        operacaoBD ob = new operacaoBD();
+        int selecionada = tblAlunos.getSelectedRow();
+        if (selecionada == -1) {
+            return; //Não tem nada selecionado
+        }
+
+        String codd = tblAlunos.getValueAt(selecionada, 0).toString();
+        cod = Integer.parseInt(codd);
+        this.setCod(cod);
+        ob.GuardarCodAluno(cod);
+
+        new TelaControleAlunoIndividual().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_tblAlunosMousePressed
+
+    private void btnCadastrarAlunoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastrarAlunoMousePressed
+        new TelaCadastroAlunoIndividual().setVisible(true);
+    }//GEN-LAST:event_btnCadastrarAlunoMousePressed
+
+    private void btnCadastrarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarAlunoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCadastrarAlunoActionPerformed
+   
+    private void btnBuscarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMousePressed
+        operacaoBD ob = new operacaoBD();
+        try {
+
+            PreparedStatement st;
+            ResultSet rs = null;
+            String nome = txtPesquisa.getText();
+
+            Connection conexao = ob.obterConexao();
+
+            st = conexao.prepareStatement("Select * from alunos where nome like ? and visible = 0");
+            st.setString(1, '%' + nome + '%');
+            rs = st.executeQuery();
+
+            System.out.println("\n Salas buscados");
+
+            String[] colunasTabela = new String[]{
+                "Matricula do Aluno", "Nome do Aluno", "Frequencia"
+            };
+            DefaultTableModel modelo;
+            modelo = new DefaultTableModel(null, colunasTabela) {
+                public boolean isCellEditable(int row, int col) {
+                    return false;
+                }
+
+                public boolean isCellSelected(int row, int col) {
+                    return true;
+                }
+            };
+            tblAlunos.setModel(modelo);
+            //while para mostrar os dados dobanco de dados
+            while (rs.next()) {
+
+                String dados[] = new String[4];
+                dados[0] = rs.getString("id_Sala");
+                dados[1] = rs.getString("nomesala");
+                dados[2] = rs.getString("materia");
+                dados[3] = rs.getString("instituicao");
+                modelo.addRow(dados);
+            }
+
+            tblAlunos.setModel(modelo);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnBuscarMousePressed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        operacaoBD ob = new operacaoBD();
+
+        try {
+            Connection conexao = ob.obterConexao();
+            PreparedStatement pre = null;
+            ResultSet rs;
+
+            pre = conexao.prepareStatement("Select * from alunos where visible = 0 order by id_Alunos");
+            rs = pre.executeQuery();
+            
+            String[] colunasTabela = new String[]{
+                "Matricula do Aluno", "Nome do Aluno", "Sala do Aluno"
+            };
+            DefaultTableModel modelo;
+            modelo = new DefaultTableModel(null, colunasTabela) {
+                public boolean isCellEditable(int row, int col) {
+                    return false;
+                }
+
+                public boolean isCellSelected(int row, int col) {
+                    return true;
+                }
+            };
+            tblAlunos.setModel(modelo);
+            while (rs.next()) {
+
+                String dados[] = new String[4];
+                dados[0] = rs.getString("id_Alunos");
+                dados[1] = rs.getString("nome");
+                dados[2] = rs.getString("sala_id");
+                modelo.addRow(dados);
+            }
+
+            tblAlunos.setModel(modelo);
+
+        } catch (Exception erro) {
+            System.out.println("erro: " + erro);
+
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -242,14 +435,28 @@ public class TelaControleAlunos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlunos;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCadastrarAluno;
     private javax.swing.JButton btnGraficos;
     private javax.swing.JButton btnOpcoes;
     private javax.swing.JButton btnRelatorios;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalas;
     private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel pnlSalas;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblAlunos;
+    private javax.swing.JTextField txtPesquisa;
     // End of variables declaration//GEN-END:variables
+
+    public int getCod() {
+        return cod;
+    }
+
+    public void setCod(int cod) {
+        this.cod = cod;
+    }
 }

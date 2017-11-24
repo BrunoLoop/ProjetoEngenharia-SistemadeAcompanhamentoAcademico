@@ -14,13 +14,16 @@ public class Aluno {
     private String nomeResponsavel;
     private String endereco; 
     private String telefone;
+    private int visible;
     
-    public Aluno(String nome, String dataNascimento, String nomeResponsavel, String endereco, String telefone) {
+    public Aluno(String nome, String dataNascimento, String nomeResponsavel, String endereco, String telefone, int visible) {
         this.nome = nome;
+        this.dataNascimento = dataNascimento;
         this.dataNascimento = dataNascimento;
         this.nomeResponsavel = nomeResponsavel;
         this.endereco = endereco;
         this.telefone = telefone;
+        this.visible = visible;
         
     }
     
@@ -90,6 +93,14 @@ public class Aluno {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public int getVisible() {
+        return visible;
+    }
+
+    public void setVisible(int visible) {
+        this.visible = visible;
     }
 
 }//fim da classe
