@@ -5,8 +5,15 @@
  */
 package View;
 
+import DAO.operacaoBD;
 import projetoengenharia.*;
 import com.mysql.jdbc.interceptors.SessionAssociationInterceptor;
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -38,7 +45,6 @@ public class TelaRelatorios extends javax.swing.JFrame {
         btnSair = new javax.swing.JButton();
         pnlSalas = new javax.swing.JPanel();
         btnRelatorioPresença = new javax.swing.JButton();
-        btnRelatorioNota = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -129,26 +135,20 @@ public class TelaRelatorios extends javax.swing.JFrame {
             }
         });
 
-        btnRelatorioNota.setText("Relatório de Nota");
-
         javax.swing.GroupLayout pnlSalasLayout = new javax.swing.GroupLayout(pnlSalas);
         pnlSalas.setLayout(pnlSalasLayout);
         pnlSalasLayout.setHorizontalGroup(
             pnlSalasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSalasLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(120, 120, 120)
                 .addComponent(btnRelatorioPresença)
-                .addGap(33, 33, 33)
-                .addComponent(btnRelatorioNota)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
         pnlSalasLayout.setVerticalGroup(
             pnlSalasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSalasLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(pnlSalasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRelatorioPresença)
-                    .addComponent(btnRelatorioNota))
+                .addGap(19, 19, 19)
+                .addComponent(btnRelatorioPresença)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -187,13 +187,32 @@ public class TelaRelatorios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRelatoriosMousePressed
 
     private void btnSairMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSairMousePressed
-        
+
         new TelaLogin().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSairMousePressed
 
     private void btnRelatorioPresençaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRelatorioPresençaMousePressed
-        
+        operacaoBD ob = new operacaoBD();
+        Connection conexao = ob.obterConexao();
+        PreparedStatement pre = null, pre1 = null;
+        ResultSet rs, rs1;
+        int frequenciatotal = 0;
+        try {
+            String sql = "select frequencia from alunos";
+            pre = conexao.prepareStatement(sql);
+            rs = pre.executeQuery();
+            if (rs.next()) {
+                int freq = rs.getInt("frequencia");
+                pre.executeQuery();
+
+                frequenciatotal = frequenciatotal + freq;
+
+            }
+            JOptionPane.showMessageDialog(null, "Frequencia total é " + frequenciatotal);
+        } catch (SQLException | HeadlessException erro) {
+            System.out.println("erro" + erro);
+        }
     }//GEN-LAST:event_btnRelatorioPresençaMousePressed
 
     /**
@@ -240,7 +259,6 @@ public class TelaRelatorios extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlunos;
-    private javax.swing.JButton btnRelatorioNota;
     private javax.swing.JButton btnRelatorioPresença;
     private javax.swing.JButton btnRelatorios;
     private javax.swing.JButton btnSair;
