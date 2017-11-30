@@ -138,7 +138,7 @@ public class operacaoBD {
             pre.setInt(6, a.getFrequenciaMin());
             pre.setInt(7, a.getQtdAvaliacoes());
             pre.setString(8, a.getObservacoes());
-            pre.setInt(9, a.getVisible());
+            pre.setInt(9, 1);
             pre.setInt(10, id_usuario);
 
             pre.executeUpdate();
@@ -233,7 +233,7 @@ public class operacaoBD {
         }
     }// fim excluir Salas
 
-    public void RealizarChamada(int freq, int id_aluno, int qtdTotalAulas) {
+    public void RealizarChamada(int presenca, int id_aluno) {
         Connection conexao = this.obterConexao();
         PreparedStatement pre;
         ResultSet rs;
@@ -244,13 +244,14 @@ public class operacaoBD {
             rs = pre.executeQuery();
             while (rs.next()) {
                 int frequencia = rs.getInt("frequencia");
-                frequencia = frequencia + freq;
+                frequencia = frequencia + presenca;
                 while (rs.next()) {
                     String sql = "Update alunos set frequencia = ? where id_Alunos = ?";
                     pre = conexao.prepareStatement(sql);
                     pre.setInt(1, frequencia);
                     pre.setInt(2, id_aluno);
                     rs = pre.executeQuery();
+                    System.out.println("presença feita com sucesso");
                 }
 
                 break;
@@ -260,229 +261,5 @@ public class operacaoBD {
             System.out.println("erro" + erro);
         }
     }
-
-    public void alterarUsuario(Usuario a) {
-        Connection conexao = this.obterConexao();
-        PreparedStatement pre = null;
-
-        try {
-            String sql = "Update usuarios set nome = ? where codusuarios = ?";
-            pre = conexao.prepareStatement(sql);
-            pre.setString(1, a.getNome());
-            pre.setString(2, a.getCodUsuario());
-            pre.executeUpdate();
-
-            System.out.println("Alteração feita com sucesso");
-        } catch (SQLException erro) {
-            System.out.println("erro " + erro);
-        }
-    }//fim alterar
-
-    public void alterarAluguel(Aluguel a) {
-        Connection conexao = this.obterConexao();
-        PreparedStatement pre = null;
-
-        try {
-            String sql = "Update alugueis set nomeusuario = ? , nomelivro = ?, dtdevolucao = ? where codaluguel = ?";
-            pre = conexao.prepareStatement(sql);
-            pre.setString(1, a.getNomeusuario());
-            pre.setString(2, a.getNomelivro());
-            pre.setString(3, a.getDtdevolucao());
-            pre.setString(4, a.getCodaluguel());
-            pre.executeUpdate();
-
-            System.out.println("Alteração feita com sucesso");
-        } catch (SQLException erro) {
-            System.out.println("erro " + erro);
-        }
-    }//fim alterar
-
-    public void excluirUsuario(Usuario a) {
-        Connection conexao = this.obterConexao();
-        PreparedStatement pre = null;
-
-        try {
-            String sql = "Delete from usuarios where codusuarios = ?";
-            pre = conexao.prepareStatement(sql);
-            pre.setString(1, a.getCodusuario());
-            pre.executeUpdate();
-
-            System.out.println("Exclusão realizada com sucesso");
-        } catch (SQLException erro) {
-            System.out.println("erro " + erro);
-        }
-    }// fim excluir
-
-    public void excluirAluguel(Aluguel a) {
-        Connection conexao = this.obterConexao();
-        PreparedStatement pre = null;
-
-        try {
-            String sql = "Delete from alugueis where codaluguel = ?";
-            pre = conexao.prepareStatement(sql);
-            pre.setString(1, a.getCodaluguel());
-            pre.executeUpdate();
-
-            System.out.println("Exclusão realizada com sucesso");
-        } catch (SQLException erro) {
-            System.out.println("erro " + erro);
-        }
-    }// fim excluir
-
-    public ResultSet listarLivros() {
-
-        Statement st;
-        ResultSet rs = null; //representação da memória em uma tabela
-
-        try {
-            Connection conexao = this.obterConexao();
-            st = conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            //ResultSet.TYPE_SCROLL_SENSITIVE possibilita o acesso 
-            //ResultSet.CONCUR_UPDATABLE possibilita a edição
-            rs = st.executeQuery("Select * from livros order by cod");
-            // executando temporariamente os dados
-            System.out.println("Listagem dos livros \n");
-            System.out.println("Codigo - Nome - Autor");
-
-            while (rs.next()) {
-                System.out.println(rs.getString("cod" + "") + " - " + rs.getString("nome" + "") + " - " + rs.getString("autor" + ""));
-
-            }
-
-            rs.first();
-        } catch (Exception erro) {
-            System.out.println("erro" + erro);
-        }
-
-        return rs;
-    }//fim listar
-
-    public ResultSet listarUsuarios() {
-
-        Statement st;
-        ResultSet rs = null; //representação da memória em uma tabela
-
-        try {
-            Connection conexao = this.obterConexao();
-            st = conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            //ResultSet.TYPE_SCROLL_SENSITIVE possibilita o acesso 
-            //ResultSet.CONCUR_UPDATABLE possibilita a edição
-            rs = st.executeQuery("Select * from usuarios order by cod");
-            // executando temporariamente os dados
-            System.out.println("Listagem dos usuarios \n");
-            System.out.println("Codigo - Nome");
-
-            while (rs.next()) {
-                System.out.println(rs.getString("cod" + "") + " - " + rs.getString("nome" + ""));
-
-            }
-
-            rs.first();
-        } catch (Exception erro) {
-            System.out.println("erro" + erro);
-        }
-
-        return rs;
-    }//fim listar
-
-    public ResultSet listarAlugueis() {
-
-        Statement st;
-        ResultSet rs = null; //representação da memória em uma tabela
-
-        try {
-            Connection conexao = this.obterConexao();
-            st = conexao.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            //ResultSet.TYPE_SCROLL_SENSITIVE possibilita o acesso 
-            //ResultSet.CONCUR_UPDATABLE possibilita a edição
-            rs = st.executeQuery("Select * from alugueis order by codaluguel");
-            // executando temporariamente os dados
-            System.out.println("Listagem dos Alugueis \n");
-            System.out.println("Codigo - NomeUsuario - NomeLivro - Data de Devolução");
-
-            while (rs.next()) {
-                System.out.println(rs.getString("cod" + "") + " - " + rs.getString("nomeusuario" + "") + " - " + rs.getString("nomelivro" + rs.getString("dtdevolucao" + "") + " - " + ""));
-
-            }
-
-            rs.first();
-        } catch (Exception erro) {
-            System.out.println("erro" + erro);
-        }
-
-        return rs;
-    }//fim listar
-
-    public ResultSet buscarLivros(String nome) {
-
-        PreparedStatement st;
-        ResultSet rs = null; //representação da memória em uma tabela
-
-        try {
-            Connection conexao = this.obterConexao();
-            st = conexao.prepareStatement("Select * from alunos where nome like ?");
-            st.setString(1, '%' + nome + '%');
-            rs = st.executeQuery();
-            System.out.println("\n Livros buscados");
-
-            while (rs.next()) {
-                System.out.println(rs.getString("codlivro" + "") + " - " + rs.getString("nome" + "") + " - " + rs.getString("Autor" + ""));
-            }
-
-            rs.first();
-        } catch (Exception erro) {
-            System.out.println("erro" + erro);
-        }
-
-        return rs;
-    }//fim buscar
-
-    public ResultSet buscarUsuarios(String nome) {
-
-        PreparedStatement st;
-        ResultSet rs = null; //representação da memória em uma tabela
-
-        try {
-            Connection conexao = this.obterConexao();
-            st = conexao.prepareStatement("Select * from alunos where nome like ?");
-            st.setString(1, '%' + nome + '%');
-            rs = st.executeQuery();
-            System.out.println("\n Usuarios buscado");
-
-            while (rs.next()) {
-                System.out.println(rs.getString("codusuario" + "") + " - " + rs.getString("nome" + "") + "");
-            }
-
-            rs.first();
-        } catch (Exception erro) {
-            System.out.println("erro" + erro);
-        }
-
-        return rs;
-    }//fim buscar
-
-    public ResultSet buscarAlugueis(String nome) {
-
-        PreparedStatement st;
-        ResultSet rs = null; //representação da memória em uma tabela
-
-        try {
-            Connection conexao = this.obterConexao();
-            st = conexao.prepareStatement("Select * from alunos where nomeusuario like ?");
-            st.setString(1, '%' + nome + '%');
-            rs = st.executeQuery();
-            System.out.println("\n Alugueis buscados");
-
-            while (rs.next()) {
-                System.out.println(rs.getString("codaluguel" + "") + " - " + rs.getString("nomeusuario" + "") + " - " + rs.getString("nomelivro" + rs.getString("dtdevolucao") + ""));
-            }
-
-            rs.first();
-        } catch (Exception erro) {
-            System.out.println("erro" + erro);
-        }
-
-        return rs;
-    }//fim buscar
 
 }//fim da classe

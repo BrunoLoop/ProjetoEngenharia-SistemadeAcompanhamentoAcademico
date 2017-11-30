@@ -23,6 +23,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TelaControleSalaIndividual extends javax.swing.JFrame {
 
+    int CodSala = 0;
+
     /**
      * Creates new form TelaControleSalaIndividual
      */
@@ -44,10 +46,7 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
         btnSalas = new javax.swing.JButton();
         btnAlunos = new javax.swing.JButton();
         btnRelatorios = new javax.swing.JButton();
-        btnGraficos = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
-        btnOpcoes = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAlunos = new javax.swing.JTable();
@@ -55,6 +54,7 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
         btnFazerChamada = new javax.swing.JButton();
         BtnApagarSala = new javax.swing.JButton();
         lblNomeSala = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -90,13 +90,6 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
             }
         });
 
-        btnGraficos.setText("Graficos");
-        btnGraficos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnGraficosMousePressed(evt);
-            }
-        });
-
         btnSair.setText("Sair");
         btnSair.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -112,11 +105,10 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnRelatorios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGraficos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAlunos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSalas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,16 +119,10 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
                 .addComponent(btnAlunos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRelatorios)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnGraficos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSair)
                 .addContainerGap())
         );
-
-        btnOpcoes.setText("Op");
-
-        jButton7.setText("FOTO");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -144,22 +130,13 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                        .addComponent(btnOpcoes)))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnOpcoes)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -200,40 +177,46 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
             }
         });
 
-        lblNomeSala.setText("jLabel1");
+        lblNomeSala.setText(".");
+
+        jLabel1.setText("Controle da Sala:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblNomeSala))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(btnCadastrarAluno)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnFazerChamada)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnApagarSala))
-                    .addComponent(lblNomeSala))
+                        .addComponent(BtnApagarSala)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(lblNomeSala)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNomeSala)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCadastrarAluno)
                     .addComponent(btnFazerChamada)
                     .addComponent(BtnApagarSala))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -247,8 +230,8 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -269,7 +252,7 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
             if (rs.next()) {
                 int salacod = rs.getInt("salacod");
                 pre.executeQuery();
-
+                CodSala = salacod;
                 String nomesala = Integer.toString(salacod);
                 lblNomeSala.setText(nomesala);
 
@@ -327,11 +310,6 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRelatoriosMousePressed
 
-    private void btnGraficosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGraficosMousePressed
-        new TelaGraficos().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnGraficosMousePressed
-
     private void btnSairMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSairMousePressed
 
         new TelaLogin().setVisible(true);
@@ -369,46 +347,46 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnApagarSalaMousePressed
 
     private void btnFazerChamadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFazerChamadaMouseClicked
+        int codSala = 0;
+        String id_Aluno = null;
+        String nome = null;
         try {
+
             operacaoBD ob = new operacaoBD();
-            Connection conexao = ob.obterConexao();
-            PreparedStatement pre = null;
+            ResultSet rs1;
             PreparedStatement pre1 = null;
-            ResultSet rs;
-            String sql = "select salacod from telaindividual";
-            pre = conexao.prepareStatement(sql);
-            rs = pre.executeQuery();
-            int salacod = 0;
-
-            while (rs.next()) {
-                salacod = rs.getInt("salacod");
-                pre.executeQuery();
-                break;
+            Connection conexao1 = ob.obterConexao();
+            String sql = "Select id_Alunos, nome from alunos where sala_id = ? order by nome";
+            pre1 = conexao1.prepareStatement(sql);
+            pre1.setInt(1, CodSala);
+            rs1 = pre1.executeQuery();
+            String dados[] = new String[3];
+            while (rs1.next()) {
+                dados[0] = rs1.getString("id_Alunos");
+                dados[1] = rs1.getString("nome");
+                pre1.executeQuery();
+                int presenca = JOptionPane.showConfirmDialog(null, "O aluno " + dados[1] + " de matricula " + dados[0]);
+                
             }
-            sql = "Select id_Alunos, nome from alunos where sala_id = ? order by nome";
-            pre1 = conexao.prepareStatement(sql);
-            pre1.setInt(1, salacod);
-            rs = pre1.executeQuery();
-            String dados[] = new String[4];
-            
-            while (rs.next()) {
-
-                
-                    dados[0] = rs.getString("id_Alunos");
-                    dados[1] = rs.getString("nome");
-                
-                
-                
-
-            }
-            pre1.executeQuery();
-            for(int i = 0; i < dados.length; i++){
-                int presenca = JOptionPane.showConfirmDialog(null, "O aluno " + dados[0] + " de matricula " + dados[1]);
-                System.out.println(dados[0] + " presença " + presenca);
+            /*
+            for (int i = 0; i < dados.length; i++) {
+                int presenca = JOptionPane.showConfirmDialog(null, "O aluno " + dados[1] + " de matricula " + dados[0]);
                 ///sim == 0 | não == 1
+                System.out.println(nome + " presença " + presenca);
+                /*
+                operacaoBD ob1 = new operacaoBD();
+                if (presenca == 0) {
+                    ob1.RealizarChamada(1, Integer.parseInt(id_Aluno));
+                } else {
+                    ob1.RealizarChamada(0, Integer.parseInt(id_Aluno));
+                }
+                 
+                
             }
+            //rs1.first();
+            */
         } catch (Exception erro) {
-            System.out.println("erro na chamada da tela telaindividual" + erro);
+            System.out.println("erro na segunda parte da chamada " + erro);
         }
     }//GEN-LAST:event_btnFazerChamadaMouseClicked
 
@@ -461,12 +439,10 @@ public class TelaControleSalaIndividual extends javax.swing.JFrame {
     private javax.swing.JButton btnAlunos;
     private javax.swing.JButton btnCadastrarAluno;
     private javax.swing.JButton btnFazerChamada;
-    private javax.swing.JButton btnGraficos;
-    private javax.swing.JButton btnOpcoes;
     private javax.swing.JButton btnRelatorios;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalas;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

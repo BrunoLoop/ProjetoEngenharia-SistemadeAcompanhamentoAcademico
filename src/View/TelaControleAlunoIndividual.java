@@ -39,15 +39,13 @@ public class TelaControleAlunoIndividual extends javax.swing.JFrame {
         btnSalas = new javax.swing.JButton();
         btnAlunos = new javax.swing.JButton();
         btnRelatorios = new javax.swing.JButton();
-        btnGraficos = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
-        btnOpcoes = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         BtnApagarAluno = new javax.swing.JButton();
-        BtnAlterarAluno = new javax.swing.JButton();
         lblNome = new javax.swing.JLabel();
         lblMatricula = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -83,13 +81,6 @@ public class TelaControleAlunoIndividual extends javax.swing.JFrame {
             }
         });
 
-        btnGraficos.setText("Graficos");
-        btnGraficos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnGraficosMousePressed(evt);
-            }
-        });
-
         btnSair.setText("Sair");
         btnSair.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -105,11 +96,10 @@ public class TelaControleAlunoIndividual extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnRelatorios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGraficos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAlunos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSalas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,16 +110,10 @@ public class TelaControleAlunoIndividual extends javax.swing.JFrame {
                 .addComponent(btnAlunos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnRelatorios)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnGraficos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                 .addComponent(btnSair)
                 .addContainerGap())
         );
-
-        btnOpcoes.setText("Op");
-
-        jButton7.setText("FOTO");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -137,23 +121,15 @@ public class TelaControleAlunoIndividual extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                        .addComponent(btnOpcoes)))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnOpcoes)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -165,45 +141,45 @@ public class TelaControleAlunoIndividual extends javax.swing.JFrame {
             }
         });
 
-        BtnAlterarAluno.setText("Alterar Aluno");
-        BtnAlterarAluno.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                BtnAlterarAlunoMousePressed(evt);
-            }
-        });
-
         lblNome.setText("Nome");
 
         lblMatricula.setText("Matricula");
+
+        jLabel1.setText("Matricula: ");
+
+        jLabel2.setText("Nome:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(232, Short.MAX_VALUE)
-                .addComponent(BtnAlterarAluno)
-                .addGap(18, 18, 18)
-                .addComponent(BtnApagarAluno)
-                .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(66, 66, 66)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblMatricula)
-                    .addComponent(lblNome))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(BtnApagarAluno)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNome)
+                            .addComponent(lblMatricula))))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BtnApagarAluno)
-                    .addComponent(BtnAlterarAluno))
+                .addComponent(BtnApagarAluno)
                 .addGap(30, 30, 30)
-                .addComponent(lblMatricula)
-                .addGap(33, 33, 33)
-                .addComponent(lblNome)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMatricula)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNome)
+                    .addComponent(jLabel2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -219,9 +195,7 @@ public class TelaControleAlunoIndividual extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -242,11 +216,6 @@ public class TelaControleAlunoIndividual extends javax.swing.JFrame {
         new TelaRelatorios().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRelatoriosMousePressed
-
-    private void btnGraficosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGraficosMousePressed
-        new TelaGraficos().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnGraficosMousePressed
 
     private void btnSairMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSairMousePressed
 
@@ -287,23 +256,26 @@ public class TelaControleAlunoIndividual extends javax.swing.JFrame {
             Connection conexao = ob.obterConexao();
             PreparedStatement pre = null;
             ResultSet rs;
-
+            
             String sql = "select alunocod from telaindividual";
             pre = conexao.prepareStatement(sql);
             rs = pre.executeQuery();
             if (rs.next()) {
                 int alunocod = rs.getInt("alunocod");
-                pre = conexao.prepareStatement("Select * from alunos where id_Alunos = ?");
-                pre.setInt(1, alunocod);
-
-                int matricula = rs.getInt("id_Alunos");
-                String nome = rs.getString("nome");
+                
+                PreparedStatement pre1 = conexao.prepareStatement("Select * from alunos where id_Alunos = ?");
+                pre1.setInt(1, alunocod);
+                ResultSet rs1 = pre1.executeQuery();
+                
+                while(rs1.next()){
+                int matricula = rs1.getInt("id_Alunos");
+                String nome = rs1.getString("nome");
 
                 System.out.println("nome + matricula" + nome + matricula);
 
                 lblMatricula.setText(Integer.toString(matricula));
-                lblNome.setName(nome);
-
+                lblNome.setText(nome);
+                }
             }
 
         } catch (Exception erro) {
@@ -311,10 +283,6 @@ public class TelaControleAlunoIndividual extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_formWindowActivated
-
-    private void BtnAlterarAlunoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAlterarAlunoMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnAlterarAlunoMousePressed
 
     /**
      * @param args the command line arguments
@@ -352,15 +320,13 @@ public class TelaControleAlunoIndividual extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnAlterarAluno;
     private javax.swing.JButton BtnApagarAluno;
     private javax.swing.JButton btnAlunos;
-    private javax.swing.JButton btnGraficos;
-    private javax.swing.JButton btnOpcoes;
     private javax.swing.JButton btnRelatorios;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalas;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
