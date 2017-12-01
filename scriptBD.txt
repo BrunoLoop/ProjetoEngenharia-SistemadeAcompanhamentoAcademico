@@ -1,0 +1,83 @@
+CREATE DATABASE `projetoeng`;
+
+	create table alunos(
+
+		id_Alunos int primary key auto_increment,
+
+        	nome varchar(150),
+
+        	sala_id varchar(50),
+ 
+ 	        dataNascimento date,
+
+	        nomeResponsavel varchar(150),
+
+	        endereco varchar(150),
+
+	        telefone int,
+
+	        frequencia float,
+
+	        visible int
+
+        );
+
+	
+	create table salas(
+
+		id_Sala int primary key auto_increment,
+
+	        nomeSala varchar(150),
+
+	        frequenciaMin float,
+
+	        qtdAvaliacoes int,
+
+	        instituicao varchar(150),
+
+	        materia varchar(150),
+
+	        observacoes varchar(250),
+
+	        anoEnsino varchar(20),
+
+	        visible int,
+
+	        id_usuario int
+
+        );
+
+
+	create table telaindividual(
+
+		salacod varchar(50),
+
+	        id_telaindividual int,
+
+	        usuariocod int,
+
+	        alunocod int
+
+        );
+
+
+	insert into telaindividual(salacod, id_telaindividual, usuariocod, alunocod) values ("111", 1, 1, 1);
+
+    	
+	create table usuarios(
+
+		id_usuario int primary key auto_increment,
+
+        	nome varchar(150),
+
+        	cpf varchar(50),
+
+        	rg varchar(50),
+
+        	email varchar(150),
+
+        	login varchar(50),
+
+	        senha varchar(50)
+
+        );
